@@ -1,0 +1,43 @@
+services:
+  web:
+    container_name: web
+    image: web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8001:8000"
+    environment:
+      - DB_HOST=database-1.cj4i468kau19.eu-north-1.rds.amazonaws.com
+      - DB_PORT=5432
+      - DB_NAME=myuser
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+    env_file:
+      - .env
+  
+  db:
+    container_name: db
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: postgres123 
+      POSTGRES_USER: postgres
+      POSTGRES_DB: myuser
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+    name: postgres_data
+  static_volume:
+    name: static_volume
+  media_volume:
+    name: media_volume
