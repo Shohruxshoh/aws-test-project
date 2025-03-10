@@ -10,6 +10,10 @@
   </head>
   <body>
     <h1>Hello, world!</h1>
+    {% for object in objects %}
+      {{object.text}}
+
+    {% endfor %}
 
     <form method='POST' enctype="multipart/form-data">
         {% csrf_token %}
