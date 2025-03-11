@@ -7,6 +7,8 @@ RUN pip install --upgrade pip --no-cache-dir
 RUN pip install -r requirements.txt
 
 COPY . /app
+COPY entrypoint.sh /app/entrypoint.sh
 
-CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
+# CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD [ "gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
